@@ -3,13 +3,12 @@ let path = require('path')
 let cleanWebpackPlugin = require('clean-webpack-plugin')
 let extractTextWebpackPlugin = require('extract-text-webpack-plugin')
 let copyWebpackPlugin = require('copy-webpack-plugin')
-let htmlWebpackPlugin = require('html-webpack-plugin');
 const infoConfig = require('./../config/info.config.js')
 const util = require('./util.js')
 module.exports = {
     entry: util.getEntry(infoConfig),
     output: {
-        filename: '[name].[hash:7].js',
+        filename: '[name].[chunkhash].js',
         path: path.resolve(__dirname, './../dist/js'),
     },
     module: {
@@ -43,6 +42,9 @@ module.exports = {
             }
         ]
     },
+    devServer: {
+        contentBase: '../'
+    },
     plugins: [
         new cleanWebpackPlugin(
             ['dist/*'],
@@ -51,6 +53,10 @@ module.exports = {
                 dry: false
             }
         ),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'common',
+            filename: '[name].[chunkhash].js'
+        }),
         new extractTextWebpackPlugin({
             filename:'../css/[name].[contenthash:7].css'
         }),

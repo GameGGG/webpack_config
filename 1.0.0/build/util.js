@@ -9,14 +9,14 @@ module.exports = {
         return obj;
     },
     getHtmlDealPlugin: function (options) {
-        const obj = []
+        const arr = []
         for (let i in options) {
-            obj.push(new htmlWebpackPlugin({
+            arr.push(new htmlWebpackPlugin({
                 filename: '../'+ i +'.html',
                 template: options[i].html_into
             }))
         }
-        return obj;
+        return arr;
     }
 }
 

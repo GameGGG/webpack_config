@@ -8,8 +8,9 @@ const util = require('./util.js')
 module.exports = {
     entry: util.getEntry(infoConfig),
     output: {
-        filename: '[name].[chunkhash].js',
-        path: path.resolve(__dirname, './../dist/js'),
+        filename: 'static/js/[name].[chunkhash].js',
+        path: path.resolve(__dirname, '../', 'dist'),
+        publicPath: '/'
     },
     module: {
         loaders: [
@@ -27,7 +28,7 @@ module.exports = {
                     loader: 'url-loader',
                     options: {
                         limit: 1,
-                        name: '../images/[name].[hash:7].[ext]'
+                        name: 'static/images/[name].[hash:7].[ext]'
                     }
                 }],
             },
@@ -42,12 +43,9 @@ module.exports = {
             }
         ]
     },
-    devServer: {
-        contentBase: '../'
-    },
     plugins: [
         new cleanWebpackPlugin(
-            ['dist/*'],
+            ['dist'],
             {
                 root: path.resolve(__dirname, '../'),
                 dry: false
@@ -55,15 +53,15 @@ module.exports = {
         ),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'common',
-            filename: '[name].[chunkhash].js'
+            filename: 'static/js/[name].[chunkhash].js'
         }),
         new extractTextWebpackPlugin({
-            filename:'../css/[name].[contenthash:7].css'
+            filename:'static/css/[name].[contenthash:7].css'
         }),
         new copyWebpackPlugin([
             {
                 from: path.resolve(__dirname, '../src/static'),
-                to: '../static',
+                to: 'static',
                 ignore: ['.*']
             }
         ])

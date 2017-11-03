@@ -12,8 +12,15 @@ module.exports = {
         const arr = []
         for (let i in options) {
             arr.push(new htmlWebpackPlugin({
-                filename: '../'+ i +'.html',
-                template: options[i].html_into
+                filename: i +'.html',
+                template: options[i].html_into,
+                chunks: [i,'common'],
+                inject: true,
+                minify: {
+                  removeComments: true,
+                  collapseWhitespace: true,
+                  removeAttributeQuotes: true
+                },
             }))
         }
         return arr;
